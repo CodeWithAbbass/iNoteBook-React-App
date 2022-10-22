@@ -6,12 +6,11 @@ const bcrypt = require('bcryptjs');// This is bcryptjs, Which is Convert our Pla
 const jwt = require('jsonwebtoken'); // This is JSON Web Token We User Sign in We give the User A Token, and When a User Again Login, Token Will be check
 const fetchuser = require('../middleware/fetchUser');
 const JWT_SECRET = "Anonymouse";     // This is Signture.
-// password must be at least 5 chars long
 // Endpoint. Create a User using: POST "/api/auth/createuser". No Login Require.
 router.post('/createuser', [
     body('name', 'Enter a Valid Name').isLength({ min: 3 }),
     body('email', 'Enter a Valid Email').isEmail(),
-    body('password', 'Password must be atleast 5 characters').isLength({ min: 5 })
+    body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }) //password must be at least 5 chars long
 ], async (req, res) => {
     // If there are errors, return Bad Request and the errors  
     const errors = validationResult(req);
