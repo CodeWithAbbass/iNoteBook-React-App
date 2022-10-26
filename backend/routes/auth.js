@@ -6,23 +6,25 @@ const bcrypt = require('bcryptjs');// This is bcryptjs, Which is Convert our Pla
 const jwt = require('jsonwebtoken'); // This is JSON Web Token We User Sign in We give the User A Token, and When a User Again Login, Token Will be check
 const fetchuser = require('../middleware/fetchUser');
 const JWT_SECRET = "Anonymouse";     // This is Signture.
+
 // Endpoint. Create a User using: POST "/api/auth/createuser". No Login Require.
 router.post('/createuser', [
-    body('name', 'Enter a Valid Name').isLength({ min: 3 }),
+    body('name', 'Enter a Valid Name'),
     body('email', 'Enter a Valid Email').isEmail(),
-    body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }) //password must be at least 5 chars long
+    body('password', 'Password must be atleast 5 characters') //password must be at least 5 chars long
 ], async (req, res) => {
+    let success = true;
     // If there are errors, return Bad Request and the errors  
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ success, errors: errors.array() });
     }
 
     // Check whether the user with this email exists already
     try {
         let user = await User.findOne({ email: req.body.email })
         if (user) {
-            return res.status(400).json({ Error: "Sorry User Already Exist" })
+            return res.status(400).json({success, Error: "Sorry User Already Exist" })
         }
         // Here We Hashing 
         const saltRounds = 10;
@@ -37,7 +39,8 @@ router.post('/createuser', [
         //This is Data Variable in Which We Store User ID After User is Created.
         const data = { user: { id: user.id } }
         const authToken = jwt.sign(data, JWT_SECRET)
-        res.json({ authToken })
+        success = true;
+        res.json({success, authToken })
 
     } catch (error) {
         console.error(error.message);
@@ -57,29 +60,35 @@ router.post('/login', [
     body('email', 'Enter a Valid Email').isEmail(),
     body('password', 'Password cannot be blank').exists(),
 ], async (req, res) => {
+    let success = true;
     // If there are errors, return Bad Request and the errors  
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        success = false;
+        return res.status(400).json({success, errors: errors.array() });
     }
 
     const { email, password } = req.body;
     try {
+        success = false;
         let user = await User.findOne({ email })
         if (!user) {
-           return res.status(400).json({ error: "Please Login Again With Correct Credentials" })
+           return res.status(400).json({success, error: "Please Login Again With Correct Credentials" })
         }
         const passwordCompare = await bcrypt.compare(password, user.password);
         if (!passwordCompare) {
-           return res.status(400).json({ error: "Please Login Again With Correct Credentials" })
+            const success = false;
+           return res.status(400).json({success, error: "Please Login Again With Correct Credentials" })
         }
         const data = { user: { id: user.id } }
         const authToken = jwt.sign(data, JWT_SECRET)
-        res.json({ authToken })
+        success = true;
+        res.json({ success, authToken })
 
     } catch (error) {
+        success = false
         console.error(error.message);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send( success, "Internal Server Error");
     }
 }
 )

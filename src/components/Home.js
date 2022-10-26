@@ -1,12 +1,12 @@
 import React from 'react';
 import Notes from './Notes';
 
-const Home = () => {
-
+const Home = (props) => {
+// console.log(props);
   return (
     <div>
       
-      <Notes/>
+      <Notes message={"Update"}/>
     </div>
   );
 }

@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import NoteContext from '../context/notes/NoteContext';
 
 const NoteItems = (props) => {
-    const { note } = props;
+    const { note, updateNote } = props;
     const context = useContext(NoteContext);
-    const { deleteNote, editNote } = context;
+    const { deleteNote } = context;
     const style = {
         position: "absolute",
         top: "1.3rem",
@@ -18,13 +18,7 @@ const NoteItems = (props) => {
                     <p className="card-text">{note.description}</p>
                     <p className="card-text">{note.tag}</p>
                     <i className="fa-solid fa-trash-can mx-2 " style={style} onClick={() => { deleteNote(note._id) }}></i>
-                    <i className="fa-solid fa-pen-to-square mx-2 " style={{ ...style, right: "2.5rem" }} onClick={() => {
-                         editNote(
-                            note._id,
-                            note.title,
-                            note.description,
-                            note.tag
-                            )}}>
+                    <i className="fa-solid fa-pen-to-square mx-2 " style={{ ...style, right: "2.5rem" }} onClick={()=>{updateNote(note)}}>
                             </i>
                 </div>
             </div>

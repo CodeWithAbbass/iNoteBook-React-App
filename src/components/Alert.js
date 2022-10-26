@@ -6,8 +6,8 @@ const Alert = (props) => {
         return lower.charAt(0).toUpperCase() + lower.slice(1);
     }
     return (
-        <div style={{height:'50px'}}>
-        <div className={`alert alert-${props.type} alert-dismissible fade show`} role="alert">
+        <div style={{height: "5rem" ,marginTop:'55px'}}>
+        <div className={`alert alert-${props.type} alert-dismissible fade show sticky-sm-top`} role="alert">
             <strong>{Capitalize(props.type)}</strong>: {props.message}
             <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
