@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = (props) => {
 
-  const [credentials, setCredentials] = useState({ fName: '',email: '',password: '', cpassword: '', });
+  const [credentials, setCredentials] = useState({ name: '',email: '',password: '', cpassword: '', });
   const Navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,9 +22,11 @@ const Signup = () => {
       // save the auth token and redirect
       localStorage.setItem('token', json.authtoken);
       Navigate("/");
+ 
+      props.showAlert("Account Created Successfully", "success");
     }
     else {
-      alert("Invalid Credentials")
+      props.showAlert("Please Use Valid Credentials", "danger");
     }
   }
   const onChange = (e) => { setCredentials({ ...credentials, [e.target.name]: e.target.value }); }
@@ -39,9 +41,9 @@ const Signup = () => {
     <div>
       <form style={style} onSubmit={handleSubmit}>
         {/* <div className="d-flex"> */}
-        <div className="mb-3 ">
+        <div className="my-5">
           <label htmlFor="name" className="form-label">First Name</label>
-          <input type="text" className="form-control outline-success " onChange={onChange} name="name" minLength={3} id="name" aria-describedby="emailHelp" required />
+          <input type="text" className="form-control outline-success " onChange={onChange} name="name" minLength={3} id="name" aria-describedby="emailHelp" />
         </div>
         {/* <div className="mb-3 ">
           <label htmlFor="lName" className="form-label">Last Name</label>

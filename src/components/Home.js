@@ -2,11 +2,10 @@ import React from 'react';
 import Notes from './Notes';
 
 const Home = (props) => {
-// console.log(props);
+const {showAlert} = props;
   return (
     <div>
-      
-      <Notes message={"Update"}/>
+      <Notes showAlert={showAlert}/>
     </div>
   );
 }

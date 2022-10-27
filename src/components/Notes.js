@@ -6,7 +6,7 @@ import NoteItems from './NoteItems';
 const Notes = (props) => {
     const [note, setNote] = useState({id: '', etitle: '', edescription: '', etag: 'default' });
     const context = useContext(NoteContext);
-    const { notes, getNotes, editNote, showAlert } = context;
+    const { notes, getNotes, editNote } = context;
     useEffect(() => {
         getNotes();
         // eslint-disable-next-line
@@ -17,19 +17,19 @@ const Notes = (props) => {
     const updateNote = (currentNote) => {
         ref.current.click()
         setNote({id: currentNote._id, etitle:currentNote.title,edescription:currentNote.description,etag:currentNote.tag,});
-        showAlert(props.message, 'Success')
 
     }
     const handleClick = (e) => {
         editNote(note.id,note.etitle,note.edescription,note.etag);
         refClose.current.click();
+        props.showAlert('Note Updated Successfully', 'success')
     }
     const onChange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value });
     }
     return (
         <>
-            <AddNote />
+            <AddNote showAlert={props.showAlert}/>
             {/* This Button Set to Display None with the Bootstrap Class d-none  */}
             <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
@@ -68,7 +68,7 @@ const Notes = (props) => {
                 <h2>Your Notes</h2>
                 {notes.length === 0 && <p>No Notes to Display</p>}
                 {notes.map((note) => {
-                    return <NoteItems key={note._id} updateNote={updateNote} note={note} />
+                    return <NoteItems showAlert={props.showAlert} key={note._id} updateNote={updateNote} note={note} />
                 })}
             </div>
         </>

@@ -1,20 +1,20 @@
-import React from 'react';
+import React from 'react'
 
-const Alert = (props) => {
+function Alert(props) {
     const Capitalize = (word)=>{
+        if(word=== "danger"){
+            word='error';
+        }
         const lower = word.toLowerCase();
         return lower.charAt(0).toUpperCase() + lower.slice(1);
     }
     return (
-        <div style={{height: "5rem" ,marginTop:'55px'}}>
-        <div className={`alert alert-${props.type} alert-dismissible fade show sticky-sm-top`} role="alert">
-            <strong>{Capitalize(props.type)}</strong>: {props.message}
-            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <div style={{height:'56px',marginTop:'56px'}}>
+        {props.Alert && <div className={`alert alert-${props.Alert.type} alert-dismissible fade show `} role="alert">
+            <strong>{Capitalize(props.Alert.type)}</strong>: {props.Alert.message}
+        </div>}
         </div>
     )
 }
 
 export default Alert
-
-
