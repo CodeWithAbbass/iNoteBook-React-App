@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 const Login = (props) => {
   const [credentials, setCredentials] = useState({ email: '', password: '', });
-  let Navigate = useNavigate();
+  const Navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const host = 'http://localhost:5000';
-    const response = await fetch(`${host}/api/auth/login`, {
+    const url = 'api/auth/login';
+    const response = await fetch(`${host}/${url}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({ email: credentials.email, password: credentials.password })
     });
     const json = await response.json()
-    console.log(json);
+    // console.log(json);
     if (json.success) {
       // save the auth token and redirect
-      console.log(json.authtoken);
-      localStorage.setItem('token', json.authtoken);
-      props.showAlert("Logged in Successfully", "success")
+      localStorage.setItem('token', json.authToken);  
       Navigate("/");
+      props.showAlert("Logged in Successfully", "success")
     }
     else {
       props.showAlert("Please Use Valid Credentials", "danger")
@@ -47,7 +47,7 @@ const Login = (props) => {
         <button type="submit" className="btn btn-success">Login</button>
       </form>
     </div>
-  )
+  );
 }
 
 export default Login;
