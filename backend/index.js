@@ -3,8 +3,8 @@ const express = require('express')
 const cors = require('cors')
 
 connectToMongo();
-const port = 5000
-const app = express()
+const port = 3001;
+const app = express();
 
 
 

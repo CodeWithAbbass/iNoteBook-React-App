@@ -2,32 +2,25 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import NoteContext from '../context/notes/NoteContext';
 import AddNote from './AddNote';
 import NoteItems from './NoteItems';
-import { useNavigate } from "react-router-dom";
-
 
 const Notes = (props) => {
-    const [note, setNote] = useState({ id: '', etitle: '', edescription: '', etag: 'default' });
+    const [note, setNote] = useState({id: '', etitle: '', edescription: '', etag: 'default' });
     const context = useContext(NoteContext);
     const { notes, getNotes, editNote } = context;
-    const navigate = useNavigate();
     useEffect(() => {
-        // if(localStorage.getItem('token')){
-            getNotes()
-        // }else{
-            // navigate("/login");
-        // }
+        getNotes();
         // eslint-disable-next-line
-    }, [])
+    });
     const ref = useRef(null);
     const refClose = useRef(null);
 
     const updateNote = (currentNote) => {
         ref.current.click()
-        setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag, });
+        setNote({id: currentNote._id, etitle:currentNote.title,edescription:currentNote.description,etag:currentNote.tag,});
 
     }
     const handleClick = (e) => {
-        editNote(note.id, note.etitle, note.edescription, note.etag);
+        editNote(note.id,note.etitle,note.edescription,note.etag);
         refClose.current.click();
         props.showAlert('Note Updated Successfully', 'success')
     }
@@ -36,7 +29,7 @@ const Notes = (props) => {
     }
     return (
         <>
-            <AddNote showAlert={props.showAlert} />
+            <AddNote showAlert={props.showAlert}/>
             {/* This Button Set to Display None with the Bootstrap Class d-none  */}
             <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
@@ -52,11 +45,11 @@ const Notes = (props) => {
                             <form>
                                 <div className="mb-3">
                                     <label htmlFor="etitle" className="form-label">Title</label>
-                                    <input type="text" className="form-control shadow" id="etitle" name='etitle' aria-describedby="emailHelp" value={note.etitle} onChange={onChange} required />
+                                    <input type="text" className="form-control shadow" id="etitle" name='etitle' aria-describedby="emailHelp" value={note.etitle} onChange={onChange} required/>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="edescription" className="form-label">Description</label>
-                                    <input type="text" className="form-control shadow" id="edescription" name='edescription' value={note.edescription} onChange={onChange} required />
+                                    <input type="text" className="form-control shadow" id="edescription" name='edescription' value={note.edescription} onChange={onChange} required/>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="etag" className="form-label">Tag</label>
@@ -66,7 +59,7 @@ const Notes = (props) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" ref={refClose} className="btn btn-secondary shadow rounded text-white" data-bs-dismiss="modal">Cancel</button>
-                            <button disabled={note.etitle.length < 3 || note.edescription.length < 5} onClick={handleClick} type="button" className="btn btn-bg-success shadow  rounded text-white" >Update Note</button>
+                            <button disabled={note.etitle.length<3 || note.edescription.length<5} onClick={handleClick} type="button" className="btn btn-bg-success shadow  rounded text-white" >Update Note</button>
                         </div>
                     </div>
                 </div>
@@ -79,6 +72,7 @@ const Notes = (props) => {
                 })}
             </div>
         </>
-    )
+    );
 }
+
 export default Notes;
