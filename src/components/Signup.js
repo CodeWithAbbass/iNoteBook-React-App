@@ -9,8 +9,7 @@ const Signup = (props) => {
     e.preventDefault();
     const {name, email, password} = credentials;
     const host = 'http://localhost:5000';
-    const url = 'api/auth/createuser';
-    const response = await fetch(`${host}/${url}`, {
+    const response = await fetch(`${host}/api/auth/createuser`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

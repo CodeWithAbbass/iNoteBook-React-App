@@ -5,8 +5,7 @@ const fetchuser = require('../middleware/fetchUser');
 const { body, validationResult } = require('express-validator');
 
 // Endpoint. FetchAllNotes using: GET "/api/notes/fetchallnotes". Login Require.
-router.get('/fetchallnotes', fetchuser,
-    async (req, res) => {
+router.get('/fetchallnotes', fetchuser, async (req, res) => {
         try {
             const notes = await Note.find({ user: req.user.id })
             res.json(notes);
