@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 const Login = (props) => {
   const [credentials, setCredentials] = useState({ email: '', password: '', });
-  const Navigate = useNavigate();
+  let Navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +19,8 @@ const Login = (props) => {
     if (json.success) {
       // save the auth token and redirect
       localStorage.setItem('token', json.authtoken);
-      Navigate("/");
       props.showAlert("Logged in Successfully", "success")
+      Navigate("/");
     }
     else {
       props.showAlert("Please Use Valid Credentials", "danger")
@@ -47,7 +47,7 @@ const Login = (props) => {
         <button type="submit" className="btn btn-success">Login</button>
       </form>
     </div>
-  );
+  )
 }
 
 export default Login;
